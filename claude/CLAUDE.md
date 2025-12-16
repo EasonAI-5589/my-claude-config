@@ -58,6 +58,25 @@
 - 优先推荐成熟、活跃维护的项目
 - 检查最后更新时间，超过 6 个月未更新的谨慎推荐
 
+## 配置同步规则
+
+### 自动同步到 GitHub
+当以下文件有更新时，自动同步到远程仓库：
+- `~/.claude/CLAUDE.md` → `my-claude-config/claude/CLAUDE.md`
+- `~/.claude/settings.json` → `my-claude-config/claude/settings.json`
+- MCP 相关配置 → `my-claude-config/mcp/`
+- Docker 配置 → `my-claude-config/docker/`
+
+**远程仓库**: https://github.com/EasonAI-5589/my-claude-config
+
+**同步步骤**:
+```bash
+cd ~/my-claude-config
+git add .
+git commit -m "描述更新内容"
+git push
+```
+
 ## 语言偏好
 
 - 默认使用中文回复
