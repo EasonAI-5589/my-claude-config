@@ -5,6 +5,7 @@
       "Read",
       "Glob",
       "Grep",
+      "Edit(~/.claude/CLAUDE.md)",
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(pwd:*)",
