@@ -1,6 +1,9 @@
 # Claude Code 进阶配置指南
 
-基于小红书热门教程和官方文档整理。
+基于小红书热门教程、官方文档和社区最佳实践整理。
+
+> 更新时间：2025-12-16
+> 参考来源：Anthropic 官方博客、小红书热门帖（6000+ 收藏）、GitHub 社区
 
 ## 当前配置状态
 
@@ -13,6 +16,8 @@
 | MCP 服务器 (6个) | context7, search, deepwiki, fetch, playwright, xiaohongshu | 已配置 |
 | Docker 部署 | 小红书 MCP 容器化 | `docker/xiaohongshu-mcp/` |
 | Extended Thinking | 启用深度思考模式 | `alwaysThinkingEnabled: true` |
+| 搜索行为优化 | 避免并行搜索触发速率限制 | CLAUDE.md |
+| 工具推荐规则 | 过滤低 star 项目 | CLAUDE.md |
 
 ### ❌ 待配置
 
@@ -20,10 +25,11 @@
 |------|------|--------|
 | 自定义命令 (Slash Commands) | 创建可复用的命令模板 | ⭐⭐⭐ |
 | Hooks | 工具调用前后的自动化脚本 | ⭐⭐⭐ |
-| Skills | 特定任务的专家模式 | ⭐⭐ |
-| Memory 记忆系统 | 跨会话保持上下文 | ⭐⭐ |
+| Think 模式进阶 | think/ultrathink 深度推理 | ⭐⭐⭐ |
 | 项目级 CLAUDE.md | 每个项目的专属规则 | ⭐⭐ |
-| 成本监控 | 实时显示 Token 消耗 | ⭐ |
+| Memory 记忆系统 | 跨会话保持上下文 | ⭐⭐ |
+| 成本监控 | 实时显示 Token 消耗 | ⭐⭐ |
+| 子代理 (Sub-agents) | 并行执行复杂任务 | ⭐ |
 
 ---
 
@@ -286,8 +292,169 @@ cat ~/.claude/history.jsonl | jq -r 'select(.type=="conversation") | .cost' | aw
 
 ---
 
+## 9. Think 模式进阶
+
+Claude Code 提供多级思考深度：
+
+```bash
+# 基础思考（默认）
+claude "实现登录功能"
+
+# 深度思考 - 适合复杂问题
+claude "think 设计一个高并发订单系统"
+
+# 超深度思考 - 适合架构设计
+claude "ultrathink 设计微服务架构迁移方案"
+```
+
+### Think 模式选择指南
+
+| 模式 | 适用场景 | Token 消耗 |
+|------|----------|------------|
+| 默认 | 简单修改、快速问答 | 低 |
+| think | 复杂逻辑、多文件修改 | 中 |
+| ultrathink | 架构设计、技术选型 | 高 |
+
+---
+
+## 10. 子代理 (Sub-agents)
+
+使用 Task 工具并行执行复杂任务：
+
+```
+# 在对话中触发
+"请并行执行以下任务：
+1. 分析 src/ 目录的代码结构
+2. 搜索所有 TODO 注释
+3. 生成测试覆盖报告"
+```
+
+Claude 会自动创建子代理并行处理，显著提升效率。
+
+---
+
+## 11. Tree of Thoughts (ToT) 提示技巧
+
+让 Claude 更系统地思考：
+
+```
+请使用 Tree of Thoughts 方法分析这个问题：
+1. 生成 3 个不同的解决方案
+2. 对每个方案进行优缺点分析
+3. 模拟实施后可能遇到的问题
+4. 选择最优方案并解释原因
+```
+
+---
+
+## 12. 高效 Prompt 模板
+
+### 代码生成模板
+
+```markdown
+## 任务
+[具体任务描述]
+
+## 技术要求
+- 语言/框架：
+- 依赖限制：
+- 性能要求：
+
+## 代码规范
+- 命名风格：
+- 注释要求：
+- 错误处理：
+
+## 示例
+[提供类似代码示例]
+```
+
+### Debug 模板
+
+```markdown
+## 问题描述
+[错误现象]
+
+## 复现步骤
+1.
+2.
+3.
+
+## 期望行为
+[应该发生什么]
+
+## 已尝试
+- 方案1：结果
+- 方案2：结果
+
+## 相关代码
+[粘贴代码片段]
+```
+
+---
+
+## 13. 成本优化策略
+
+### 策略一：分层模型
+
+```bash
+# 简单任务用 Haiku（便宜）
+claude --model haiku "格式化这段代码"
+
+# 复杂任务用 Sonnet（平衡）
+claude --model sonnet "重构这个模块"
+
+# 关键决策用 Opus（最强）
+claude --model opus "设计系统架构"
+```
+
+### 策略二：上下文管理
+
+```bash
+# 定期压缩上下文
+/compact
+
+# 开启新任务前清理
+/clear
+```
+
+### 策略三：预设停止条件
+
+在 CLAUDE.md 中添加：
+
+```markdown
+## 成本控制
+- 单次对话不超过 $5
+- 超过限制前提醒用户
+- 优先使用缓存结果
+```
+
+---
+
+## 14. 推荐 GitHub 项目
+
+学习高级用法的优质开源项目：
+
+| 项目 | 说明 | Star |
+|------|------|------|
+| [diet103/claude-code-infrastructure-showcase](https://github.com/diet103/claude-code-infrastructure-showcase) | 6 个月使用经验总结 | 热门 |
+| [anthropics/claude-code](https://github.com/anthropics/claude-code) | 官方仓库 | 官方 |
+
+---
+
 ## 参考资源
 
+### 官方资源
+- [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices) - Anthropic 官方博客
 - [Claude Code 官方文档](https://docs.anthropic.com/claude-code)
-- [小红书热门教程](#) - "30个进阶技巧榨干Claude Code"
 - [GitHub](https://github.com/anthropics/claude-code)
+
+### 社区教程（小红书）
+- "30个进阶技巧榨干Claude Code" - @饼干哥哥 AGI (338收藏)
+- "看他用ClaudeCode让我感觉自己像个新兵蛋子" - @好记星.ai (6268收藏)
+- "如何管理Claude Code上下文" - @一蛙 (766收藏)
+- "Claude Code详细攻略，一期视频精通" - @技术爬爬虾 (1693收藏)
+
+### 中文博客
+- [Claude Code完全指南](https://blog.csdn.net/qq254606826/article/details/145865855) - CSDN
+- [最强Coding Agent: Claude Code权威实践指南](https://zhuanlan.zhihu.com/p/1920263182062163086) - 知乎
