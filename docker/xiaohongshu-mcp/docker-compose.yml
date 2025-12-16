@@ -1,0 +1,19 @@
+name: xiaohongshu-mcp
+
+services:
+  xiaohongshu-mcp:
+    # 本地构建的 ARM64 镜像（Apple Silicon Mac）
+    image: xiaohongshu-mcp:arm64
+    # Docker Hub 镜像（x86 平台）
+    # image: xpzouying/xiaohongshu-mcp
+    container_name: xiaohongshu-mcp
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./data:/app/data
+      - ./images:/app/images
+    environment:
+      - ROD_BROWSER_BIN=/usr/bin/google-chrome
+      - COOKIES_PATH=/app/data/cookies.json
+    ports:
+      - "18060:18060"
