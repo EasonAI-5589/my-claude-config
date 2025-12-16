@@ -23,6 +23,18 @@ cd ~/xiaohongshu-mcp
 # 构建 ARM64 镜像 (Apple Silicon Mac)
 docker build -f Dockerfile.arm64 -t xiaohongshu-mcp:arm64 .
 
+# 安装 Chromium 到容器（原镜像不含浏览器）
+docker run -d --name xiaohongshu-mcp-temp xiaohongshu-mcp:arm64 sleep infinity
+docker exec xiaohongshu-mcp-temp bash -c '
+  cd /tmp &&
+  wget -q https://playwright.azureedge.net/builds/chromium/1148/chromium-linux-arm64.zip -O chromium.zip &&
+  apt-get update && apt-get install -y unzip > /dev/null 2>&1 &&
+  unzip -q chromium.zip -d /opt/ &&
+  ln -sf /opt/chrome-linux/chrome /usr/bin/google-chrome
+'
+docker commit xiaohongshu-mcp-temp xiaohongshu-mcp:arm64-with-chromium
+docker rm -f xiaohongshu-mcp-temp
+
 # 复制 cookies 到 docker 目录
 cp cookies.json docker/data/
 
@@ -57,7 +69,7 @@ name: xiaohongshu-mcp
 
 services:
   xiaohongshu-mcp:
-    image: xiaohongshu-mcp:arm64
+    image: xiaohongshu-mcp:arm64-with-chromium
     container_name: xiaohongshu-mcp
     restart: unless-stopped
     tty: true

@@ -2,8 +2,8 @@ name: xiaohongshu-mcp
 
 services:
   xiaohongshu-mcp:
-    # 本地构建的 ARM64 镜像（Apple Silicon Mac）
-    image: xiaohongshu-mcp:arm64
+    # 本地构建的 ARM64 镜像（包含 Chromium）
+    image: xiaohongshu-mcp:arm64-with-chromium
     # Docker Hub 镜像（x86 平台）
     # image: xpzouying/xiaohongshu-mcp
     container_name: xiaohongshu-mcp
