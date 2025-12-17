@@ -138,6 +138,24 @@ Skills 存放在 `~/.claude/skills/`，Claude 会根据任务自动判断使用�
 
 **远程仓库**: https://github.com/EasonAI-5589/my-claude-config
 
+### 工作流变更时必须更新的文件
+
+**重要：当 MCP 或 Skills 发生变化时，必须同时更新以下文件：**
+
+1. **新增/删除 MCP 时**：
+   - `mcp/README.md` - 更新 MCP 列表和安装命令
+   - `README.md` - 更新 MCP 概览表格和数量
+   - `claude/CLAUDE.md` - 更新 MCP 调用规则
+
+2. **新增/删除 Skills 时**：
+   - `skills/README.md` - 更新 Skills 列表
+   - `README.md` - 更新 Skills 概览表格和数量
+   - `claude/CLAUDE.md` - 更新 Skills 调用规则
+
+3. **工作流变更时**：
+   - `README.md` - 更新核心工作流图示
+   - `claude/CLAUDE.md` - 更新工作流章节
+
 **同步步骤**:
 ```bash
 cd ~/my-claude-config
