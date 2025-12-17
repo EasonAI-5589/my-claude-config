@@ -84,6 +84,25 @@ git commit -m "描述更新内容"
 git push
 ```
 
+## 权限白名单配置
+
+`~/.claude/settings.json` 中的 `allowedTools` 控制哪些操作自动允许（无需确认）：
+
+### 自动允许的编辑
+- `Edit(~/.claude/CLAUDE.md)` - 本文件的编辑
+- `Edit(~/.claude/settings.json)` - 权限配置的编辑
+
+### 自动允许的命令
+- 文件操作：`ls`, `cat`, `cp`, `mv`, `mkdir`, `touch`, `chmod`
+- 开发工具：`git`, `npm`, `npx`, `node`, `pnpm`, `yarn`
+- Python：`python`, `python3`, `pip`, `pip3`, `uv`, `uvx`
+- 容器：`docker`, `docker-compose`
+- 其他：`curl`, `wget`, `jq`, `grep`, `awk`, `sed`, `tar`, `unzip`
+
+### 禁止的命令
+- `rm -rf` - 防止误删
+- `sudo` - 防止权限滥用
+
 ## 语言偏好
 
 - 默认使用中文回复

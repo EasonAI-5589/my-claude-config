@@ -6,6 +6,7 @@
       "Glob",
       "Grep",
       "Edit(~/.claude/CLAUDE.md)",
+      "Edit(~/.claude/settings.json)",
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(pwd:*)",
