@@ -84,6 +84,28 @@
 帮我把 Zotero 里关于 transformer 的论文整理成飞书文档
 ```
 
+## Skills 自动调用规则
+
+Skills 存放在 `~/.claude/skills/`，Claude 会根据任务自动判断使用。
+
+### paper-reading - 论文阅读
+当需要以下操作时，参考此 Skill：
+- 阅读和分析学术论文
+- 提取论文关键信息（方法、实验、结论）
+- 批判性分析研究质量
+
+### literature-to-feishu - 文献整理
+当需要以下操作时，参考此 Skill：
+- 将 Zotero 文献整理到飞书
+- 创建文献综述文档
+- 批量处理论文信息
+
+### xiaohongshu-writer - 小红书写作
+当需要以下操作时，参考此 Skill：
+- 创作小红书图文笔记
+- 分析爆款内容结构
+- 优化标题和文案
+
 ## 搜索行为规则
 
 ### 避免并行搜索
@@ -110,6 +132,7 @@
 当以下文件有更新时，自动同步到远程仓库：
 - `~/.claude/CLAUDE.md` → `my-claude-config/claude/CLAUDE.md`
 - `~/.claude/settings.json` → `my-claude-config/claude/settings.json`
+- `~/.claude/skills/` → `my-claude-config/skills/`
 - MCP 相关配置 → `my-claude-config/mcp/`
 - Docker 配置 → `my-claude-config/docker/`
 
