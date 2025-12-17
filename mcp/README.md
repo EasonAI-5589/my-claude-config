@@ -12,6 +12,7 @@
 | [fetch](./fetch.md) | 获取网页内容 | `claude mcp add fetch -- uvx mcp-server-fetch` |
 | [playwright](./playwright.md) | 浏览器自动化 | `claude mcp add playwright -- npx @playwright/mcp@latest --headless` |
 | [xiaohongshu-mcp](./xiaohongshu-mcp.md) | 小红书操作 | `claude mcp add --transport http xiaohongshu-mcp http://localhost:18060/mcp` |
+| [nano-banana](./nano-banana.md) | AI 图片生成 (Gemini) | `claude mcp add nano-banana -e GEMINI_API_KEY=xxx -- npx nano-banana-mcp` |
 
 ## 一键安装所有 MCP
 
@@ -33,6 +34,9 @@ claude mcp add playwright -- npx @playwright/mcp@latest --headless
 
 # 小红书 MCP (需要先启动 Docker 服务)
 claude mcp add --transport http xiaohongshu-mcp http://localhost:18060/mcp
+
+# Nano Banana (需要 Gemini API Key)
+claude mcp add nano-banana -e GEMINI_API_KEY=YOUR_KEY -- npx nano-banana-mcp
 ```
 
 ## 验证安装
