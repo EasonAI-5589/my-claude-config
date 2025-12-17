@@ -13,6 +13,7 @@
 | [playwright](./playwright.md) | 浏览器自动化 | `claude mcp add playwright -- npx @playwright/mcp@latest --headless` |
 | [xiaohongshu-mcp](./xiaohongshu-mcp.md) | 小红书操作 | `claude mcp add --transport http xiaohongshu-mcp http://localhost:18060/mcp` |
 | [nano-banana](./nano-banana.md) | AI 图片生成 (Gemini) | `claude mcp add nano-banana -e GEMINI_API_KEY=xxx -- npx nano-banana-mcp` |
+| [zotero-mcp](./zotero-mcp.md) | Zotero 文献管理 | `claude mcp add zotero -e ZOTERO_LOCAL=true -- zotero-mcp` |
 
 ## 一键安装所有 MCP
 
@@ -37,6 +38,9 @@ claude mcp add --transport http xiaohongshu-mcp http://localhost:18060/mcp
 
 # Nano Banana (需要 Gemini API Key)
 claude mcp add nano-banana -e GEMINI_API_KEY=YOUR_KEY -- npx nano-banana-mcp
+
+# Zotero MCP (需要先安装: pip install "fastmcp<2.10" && pip install git+https://github.com/54yyyu/zotero-mcp.git)
+claude mcp add zotero -e ZOTERO_LOCAL=true -- zotero-mcp
 ```
 
 ## 验证安装
