@@ -45,6 +45,45 @@
   ```
 - 服务运行在 `http://localhost:18060/mcp`
 
+### Zotero MCP - 文献管理（自动使用）
+当需要以下文献相关操作时，自动使用 zotero MCP：
+- 搜索文献库中的论文
+- 获取论文元数据和全文
+- 提取 PDF 标注和高亮
+- 导出 BibTeX 引用
+- 语义搜索相关文献
+
+**重要：Zotero MCP 需要 Zotero 桌面端运行**
+- 确保 Zotero 7+ 已安装并正在运行
+- 在 Zotero 设置中开启本地 API：设置 → 高级 → 勾选 "Allow other applications to access Zotero via local API"
+
+### 飞书 MCP - 文档操作（自动使用）
+当需要以下飞书相关操作时，自动使用 lark-mcp：
+- 创建飞书文档
+- 编辑飞书文档内容
+- 查看飞书文档
+- 操作多维表格
+- Markdown 转飞书文档块
+
+**已开通权限**：
+- `docx:document` - 创建及编辑文档
+- `docx:document:readonly` - 查看文档
+- `docx:document.block:convert` - Markdown/HTML 转文档块
+- `bitable:app` - 多维表格读写
+
+## 工作流：文献整理到飞书
+
+当用户需要整理文献到飞书时，按以下流程操作：
+
+1. **Zotero 获取文献** - 使用 zotero MCP 搜索和获取论文信息
+2. **Claude 整理分析** - 提取关键信息、生成摘要
+3. **飞书输出** - 使用 lark-mcp 创建文档或更新多维表格
+
+示例命令：
+```
+帮我把 Zotero 里关于 transformer 的论文整理成飞书文档
+```
+
 ## 搜索行为规则
 
 ### 避免并行搜索

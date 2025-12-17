@@ -14,6 +14,7 @@
 | [xiaohongshu-mcp](./xiaohongshu-mcp.md) | 小红书操作 | `claude mcp add --transport http xiaohongshu-mcp http://localhost:18060/mcp` |
 | [nano-banana](./nano-banana.md) | AI 图片生成 (Gemini) | `claude mcp add nano-banana -e GEMINI_API_KEY=xxx -- npx nano-banana-mcp` |
 | [zotero-mcp](./zotero-mcp.md) | Zotero 文献管理 | `claude mcp add zotero -e ZOTERO_LOCAL=true -- zotero-mcp` |
+| [lark-mcp](./lark-mcp.md) | 飞书文档操作 | `claude mcp add lark-mcp -- npx -y @larksuiteoapi/lark-mcp mcp -a APP_ID -s APP_SECRET` |
 
 ## 一键安装所有 MCP
 
@@ -41,6 +42,9 @@ claude mcp add nano-banana -e GEMINI_API_KEY=YOUR_KEY -- npx nano-banana-mcp
 
 # Zotero MCP (需要先安装: pip install "fastmcp<2.10" && pip install git+https://github.com/54yyyu/zotero-mcp.git)
 claude mcp add zotero -e ZOTERO_LOCAL=true -- zotero-mcp
+
+# 飞书 MCP (需要先在 https://open.feishu.cn/app 创建应用获取凭证)
+claude mcp add lark-mcp -- npx -y @larksuiteoapi/lark-mcp mcp -a YOUR_APP_ID -s YOUR_APP_SECRET
 ```
 
 ## 验证安装
