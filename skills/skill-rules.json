@@ -1,0 +1,49 @@
+{
+  "version": "1.0",
+  "description": "Skill auto-activation rules based on keywords and file patterns",
+  "skills": [
+    {
+      "name": "paper-reading",
+      "description": "论文阅读和分析流程",
+      "triggers": {
+        "keywords": [
+          "论文", "paper", "阅读论文", "读论文", "分析论文",
+          "pdf", "arxiv", "研究", "方法", "实验",
+          "zotero", "文献", "摘要", "abstract"
+        ],
+        "pathPatterns": [
+          "**/*.pdf",
+          "**/papers/**",
+          "**/research/**"
+        ]
+      },
+      "priority": 10
+    },
+    {
+      "name": "literature-to-feishu",
+      "description": "文献整理到飞书工作流",
+      "triggers": {
+        "keywords": [
+          "整理文献", "文献综述", "导出到飞书", "飞书文档",
+          "zotero", "批量", "论文列表", "文献库",
+          "feishu", "lark", "整理到飞书"
+        ],
+        "pathPatterns": []
+      },
+      "priority": 8
+    },
+    {
+      "name": "xiaohongshu-writer",
+      "description": "小红书内容创作",
+      "triggers": {
+        "keywords": [
+          "小红书", "笔记", "爆款", "种草", "测评",
+          "标题", "文案", "发布", "xiaohongshu",
+          "写小红书", "小红书写作", "创作"
+        ],
+        "pathPatterns": []
+      },
+      "priority": 8
+    }
+  ]
+}

@@ -24,9 +24,12 @@ my-claude-config/
 │   ├── zotero-mcp.md        # Zotero 文献管理
 │   └── lark-mcp.md          # 飞书文档操作
 ├── skills/                   # Claude Skills (个人工作流)
+│   ├── skill-rules.json     # Skill 自动激活规则 ⭐
 │   ├── paper-reading/       # 论文阅读分析
 │   ├── literature-to-feishu/ # 文献整理到飞书
 │   └── xiaohongshu-writer/  # 小红书写作
+├── hooks/                    # Claude Code Hooks
+│   └── skill-activation-prompt.sh  # Skill 自动激活 hook
 ├── docker/                   # Docker 配置
 │   └── xiaohongshu-mcp/
 │       └── docker-compose.yml
@@ -42,9 +45,9 @@ my-claude-config/
 | 权限设置 | ✅ | 工具白名单/黑名单 |
 | MCP 服务器 (8个) | ✅ | context7, search, deepwiki, fetch, playwright, xiaohongshu, zotero, lark-mcp |
 | Skills (3个) | ✅ | paper-reading, literature-to-feishu, xiaohongshu-writer |
+| Hooks (1个) | ✅ | skill-activation-prompt (Skill 自动激活) |
 | Extended Thinking | ✅ | 深度思考模式 |
 | 自定义命令 | ❌ | 待配置 |
-| Hooks | ❌ | 待配置 |
 | Memory | ❌ | 待配置 |
 
 👉 查看 [进阶配置指南](docs/advanced-guide.md) 了解如何配置更多功能。
@@ -119,11 +122,60 @@ Claude 执行:
 
 ## Skills 概览
 
-| Skill | 用途 | 触发场景 |
+| Skill | 用途 | 触发关键词 |
 |-------|------|----------|
-| paper-reading | 论文阅读分析 | 阅读论文、分析方法、提取关键信息 |
-| literature-to-feishu | 文献整理到飞书 | Zotero → Claude → 飞书工作流 |
-| xiaohongshu-writer | 小红书写作 | 创作笔记、分析爆款、优化文案 |
+| paper-reading | 论文阅读分析 | 论文、paper、arxiv、研究、zotero |
+| literature-to-feishu | 文献整理到飞书 | 整理文献、文献综述、飞书文档 |
+| xiaohongshu-writer | 小红书写作 | 小红书、笔记、爆款、种草、文案 |
+
+## Hooks 系统：Skill 自动激活
+
+### 核心问题
+Claude Code 的 Skills 是**被动的**，不会自动触发。你必须手动记住使用哪个 Skill。
+
+### 解决方案
+通过 `skill-activation-prompt` hook，根据用户输入的关键词**自动建议**相关 Skill：
+
+```
+用户输入: "帮我读一下这篇论文"
+    ↓
+Hook 检测到关键词 "论文"
+    ↓
+匹配 skill-rules.json 中的 paper-reading
+    ↓
+显示: "💡 检测到相关 Skill: paper-reading"
+```
+
+### 配置文件
+
+**skill-rules.json** - 定义触发规则：
+```json
+{
+  "skills": [
+    {
+      "name": "paper-reading",
+      "triggers": {
+        "keywords": ["论文", "paper", "arxiv", "研究"]
+      }
+    }
+  ]
+}
+```
+
+**settings.json** - 注册 hook：
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "~/.claude/hooks/skill-activation-prompt.sh" }
+        ]
+      }
+    ]
+  }
+}
+```
 
 ## 核心工作流
 
