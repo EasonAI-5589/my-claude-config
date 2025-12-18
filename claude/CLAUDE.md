@@ -1,5 +1,16 @@
 # Claude Code 全局规则
 
+> **⚠️ 必读：配置变更检查清单**
+>
+> 当新增/修改 MCP 或 Skills 时，**必须同时更新**：
+> - [ ] `README.md` - 目录结构、配置状态、概览表格、工作流
+> - [ ] `skill-rules.json` - 触发关键词（如果是 Skill）
+> - [ ] 相关文档（mcp/*.md 或 skills/README.md）
+>
+> **不要忘记 push 到 GitHub！**
+
+---
+
 ## 核心概念：MCP vs Skills vs Hooks
 
 | 概念 | 本质 | 作用 | 类比 |
