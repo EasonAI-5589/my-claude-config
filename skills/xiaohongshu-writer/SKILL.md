@@ -136,6 +136,38 @@ publish_content: 发布图文
 publish_with_video: 发布视频
 ```
 
+## 图片路径配置（重要）
+
+xiaohongshu-mcp 运行在 Docker 容器中，**无法直接访问 Mac 本地路径**。
+
+### 路径映射关系
+| Mac 本地路径 | Docker 容器路径 |
+|-------------|----------------|
+| `~/xiaohongshu-mcp/docker/images/` | `/app/images/` |
+
+### 发布图片的正确流程
+
+1. **生成/准备图片**（nano-banana 或其他工具）
+   ```bash
+   # 图片会保存到 ~/generated_imgs/
+   ```
+
+2. **复制到挂载目录**
+   ```bash
+   cp ~/generated_imgs/xxx.png ~/xiaohongshu-mcp/docker/images/
+   ```
+
+3. **发布时使用容器路径**
+   ```
+   publish_content:
+     images: ["/app/images/xxx.png"]  # 使用容器内路径
+   ```
+
+### 常见错误
+- `fetch failed` + Docker 日志显示 `图片文件不存在`
+- 原因：使用了 Mac 本地路径如 `/Users/xxx/...`
+- 解决：使用 `/app/images/xxx.png` 格式
+
 ## 数据分析指标
 
 评估内容质量：
