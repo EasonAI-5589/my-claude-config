@@ -25,6 +25,7 @@ my-claude-config/
 │   └── lark-mcp.md          # 飞书文档操作
 ├── skills/                   # Claude Skills (个人工作流)
 │   ├── skill-rules.json     # Skill 自动激活规则 ⭐
+│   ├── paper-writing/       # 论文写作（顶会投稿）⭐ 新增
 │   ├── paper-reading/       # 论文阅读分析
 │   ├── literature-to-feishu/ # 文献整理到飞书
 │   └── xiaohongshu-writer/  # 小红书写作
@@ -44,7 +45,7 @@ my-claude-config/
 | 全局规则 CLAUDE.md | ✅ | MCP 调用、语言偏好、工作流 |
 | 权限设置 | ✅ | 工具白名单/黑名单 |
 | MCP 服务器 (8个) | ✅ | context7, search, deepwiki, fetch, playwright, xiaohongshu, zotero, lark-mcp |
-| Skills (3个) | ✅ | paper-reading, literature-to-feishu, xiaohongshu-writer |
+| Skills (4个) | ✅ | paper-writing, paper-reading, literature-to-feishu, xiaohongshu-writer |
 | Hooks (1个) | ✅ | skill-activation-prompt (Skill 自动激活) |
 | Extended Thinking | ✅ | 深度思考模式 |
 | 自定义命令 | ❌ | 待配置 |
@@ -124,6 +125,7 @@ Claude 执行:
 
 | Skill | 用途 | 触发关键词 |
 |-------|------|----------|
+| **paper-writing** | 论文写作（顶会投稿）⭐ | 写论文、润色、method、experiment、CVPR、latex |
 | paper-reading | 论文阅读分析 | 论文、paper、arxiv、研究、zotero |
 | literature-to-feishu | 文献整理到飞书 | 整理文献、文献综述、飞书文档 |
 | xiaohongshu-writer | 小红书写作 | 小红书、笔记、爆款、种草、文案 |
@@ -179,14 +181,31 @@ Hook 检测到关键词 "论文"
 
 ## 核心工作流
 
+### 工作流 1：文献整理
 ```
 Zotero (文献管理) → Claude (整理分析) → 飞书 (文档输出)
 ```
-
 使用示例：
 ```
 帮我把 Zotero 里关于 transformer 的论文整理成飞书文档
 ```
+
+### 工作流 2：论文写作 ⭐ 新增
+```
+LaTeX 草稿 → Claude (润色/公式解释/实验描述) → 顶会投稿
+```
+使用示例：
+```
+帮我润色 Method 部分，保留 LaTeX 公式
+帮我写 Ablation Study 的分析段落
+帮我生成这段 PyTorch 代码的伪代码
+```
+
+**paper-writing Skill 包含**：
+- Title/Abstract、Introduction、Related Work
+- Method（公式解释、Loss描述、伪代码）
+- Experiment（结果分析、Ablation、统计显著性）
+- Conclusion、Rebuttal 回复模板
 
 ## 环境要求
 
