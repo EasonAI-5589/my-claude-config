@@ -3,6 +3,25 @@
   "description": "Skill auto-activation rules based on keywords and file patterns",
   "skills": [
     {
+      "name": "paper-writing",
+      "description": "AI学术论文写作助手（顶会投稿）",
+      "triggers": {
+        "keywords": [
+          "写论文", "论文写作", "paper writing", "润色", "polish",
+          "introduction", "method", "experiment", "conclusion",
+          "投稿", "submit", "顶会", "CVPR", "ICCV", "ICML", "NeurIPS",
+          "latex", "公式", "equation", "loss function", "ablation",
+          "rebuttal", "camera ready", "摘要", "abstract"
+        ],
+        "pathPatterns": [
+          "**/*.tex",
+          "**/paper/**",
+          "**/manuscript/**"
+        ]
+      },
+      "priority": 12
+    },
+    {
       "name": "paper-reading",
       "description": "论文阅读和分析流程",
       "triggers": {
