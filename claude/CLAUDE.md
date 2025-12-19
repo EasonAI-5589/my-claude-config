@@ -83,6 +83,18 @@ Hooks  = 什么时候做（触发）  → 检测到关键词自动激活 Skill
   cd ~/xiaohongshu-mcp && ./xiaohongshu-mcp-darwin-arm64 &
   ```
 - 服务运行在 `http://localhost:18060/mcp`
+- **服务重启后必须重启 Claude Code 会话**才能加载新工具
+
+**发布前必检清单**：
+1. `check_login_status` - 确认已登录
+2. 标题字数 ≤ 20（含标点！）
+3. 图片使用绝对路径
+4. 展示预览让用户确认后再发布
+
+**常见错误处理**：
+- `标题长度超过限制` → 缩短标题
+- `Node is detached` → 调用 check_login_status 后重试
+- `工具不存在` → 重启 Claude Code
 
 ### Zotero MCP - 文献管理（自动使用）
 当需要以下文献相关操作时，自动使用 zotero MCP：
