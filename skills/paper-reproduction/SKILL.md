@@ -15,32 +15,53 @@ description: 论文复现工作流。通过多源交叉验证确保论文链接�
 
 ## 🔴 代码复现工作流（最重要）
 
-**核心原则：先读论文，再写代码。每个参数都要有出处。**
+**核心原则：先读官方代码，再读论文，最后实现。每个参数都要有出处。**
 
-### Step 0: 获取论文全文
+### Step 0: 获取论文和官方仓库
 ```
-# 使用 Zotero MCP 搜索和获取论文
+# 使用 Zotero MCP 搜索论文
 zotero_search_items("方法名 关键词")
 zotero_get_item_fulltext(item_key)
+
+# 找到官方 GitHub 仓库
 ```
 
-### Step 1: 阅读论文关键部分
+### Step 1: 🔥 阅读官方 GitHub（最优先）
+
+**如果有官方实现，这一步最重要！**
+
+```bash
+# 使用 DeepWiki MCP 理解仓库结构
+mcp__deepwiki__read_wiki_structure("owner/repo")
+mcp__deepwiki__ask_question("owner/repo", "what are the core modifications to the model?")
+
+# 重点检查：
+1. 核心算法实现文件（哪些文件被修改）
+2. config 文件 / argparse 默认值
+3. README 中的使用示例和超参数
+4. 与 baseline 的 diff（改了什么）
+```
+
+**总结核心修改清单：**
+- [ ] 修改了哪些文件？
+- [ ] 核心算法在哪个函数/类？
+- [ ] 默认超参数是什么？
+- [ ] 需要新增哪些依赖？
+
+### Step 2: 阅读论文关键部分
+
 | 部分 | 重点内容 |
 |------|----------|
 | Method | 公式、算法伪代码、关键概念 |
 | Experiments | 实验设置、基线对比 |
-| Appendix | **超参数表格**（最重要！）|
+| Appendix | **超参数表格**（验证与代码一致）|
 | Implementation Details | 框架、batch size、学习率等 |
 
-### Step 2: 查看官方 GitHub
+**交叉验证：论文参数 vs 代码默认值**
 ```
-# 使用 DeepWiki MCP 或直接访问
-ask_question("github_repo", "what are the default hyperparameters?")
-
-# 重点检查：
-- config 文件 / argparse 默认值
-- README 中的使用示例
-- 核心算法实现
+论文 Table X 说 alpha=0.5
+代码 argparse default=0.5
+✓ 一致
 ```
 
 ### Step 3: OpenReview 补充信息
@@ -51,23 +72,40 @@ site:openreview.net "论文标题"
 # 重点关注：
 - 审稿人对实现细节的质疑
 - 作者的澄清和补充说明
-- Rebuttal 中的额外实验
+- Rebuttal 中的额外实验/超参数
 ```
 
-### Step 4: 实现时标注出处
+### Step 4: 实现（参考官方代码结构）
+
 ```python
+# 参考官方实现的文件结构
+# 例如官方是 vcd/vcd_utils.py，我们也创建类似结构
+
 # 每个关键参数都要注释来源
-alpha = 0.7      # Table 6, Appendix A
-beta1 = 0.20     # Table 6, LLaVA POPE setting
-temperature = 0  # Section 4.1 "we set temperature to 0"
+alpha = 1.0      # Official GitHub default + Paper Section 4.1
+beta = 0.1       # Official GitHub default + Paper Section 4.1
+noise_step = 500 # Paper Appendix A: "500 for CHAIR"
 ```
 
 ### 代码复现检查清单
+- [ ] **阅读官方 GitHub 核心实现**
+- [ ] **总结官方修改了哪些文件/函数**
 - [ ] 阅读论文 Method 部分的公式
 - [ ] 阅读论文 Appendix 的超参数表格
-- [ ] 查看官方 GitHub 的默认配置
-- [ ] 确认 temperature、seed 等实验设置
+- [ ] 交叉验证：论文参数 = 代码默认值？
 - [ ] 每个参数都有论文/代码出处
+
+---
+
+## 复现优先级
+
+```
+1. 官方 GitHub 代码 ← 最可信，直接看实现
+2. 论文 Appendix    ← 超参数表格
+3. 论文 Method      ← 理解原理
+4. OpenReview      ← 补充细节
+5. 其他复现仓库    ← 参考，但需验证
+```
 
 ---
 
