@@ -3,6 +3,27 @@
   "description": "Skill auto-activation rules based on keywords and file patterns",
   "skills": [
     {
+      "name": "paper-reproduction",
+      "description": "论文复现工作流",
+      "triggers": {
+        "keywords": [
+          "复现", "reproduce", "reproduction", "replication",
+          "验证", "verify", "benchmark", "evaluate",
+          "POPE", "CHAIR", "MME", "hallucination",
+          "对比实验", "baseline", "ablation",
+          "官方实现", "official implementation",
+          "链接验证", "verify links", "check links"
+        ],
+        "pathPatterns": [
+          "**/scripts/**",
+          "**/eval/**",
+          "**/decode/**",
+          "**/benchmark/**"
+        ]
+      },
+      "priority": 11
+    },
+    {
       "name": "paper-writing",
       "description": "AI学术论文写作助手（顶会投稿）",
       "triggers": {
