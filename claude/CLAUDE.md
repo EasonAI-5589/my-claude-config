@@ -145,6 +145,19 @@ Skills 存放在 `~/.claude/skills/`，Claude 会根据任务自动判断使用�
 - 提取论文关键信息（方法、实验、结论）
 - 批判性分析研究质量
 
+### paper-reproduction - 论文复现
+当需要以下操作时，参考此 Skill：
+- 复现论文中的方法/算法
+- 验证论文链接、会议状态、GitHub仓库
+- **代码实现前必须先读论文，每个参数都要有出处**
+
+**核心流程**：
+1. Zotero 获取论文全文
+2. 阅读 Method + Appendix（超参数表格）
+3. GitHub 查看官方实现
+4. OpenReview 查看审稿问答
+5. 实现时标注参数出处
+
 ### literature-to-feishu - 文献整理
 当需要以下操作时，参考此 Skill：
 - 将 Zotero 文献整理到飞书
