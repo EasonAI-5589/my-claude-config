@@ -247,6 +247,55 @@ git push
 - `rm -rf` - 防止误删
 - `sudo` - 防止权限滥用
 
+## 每日记忆系统
+
+### 记忆存储位置
+`~/.claude/daily-summaries/YYYY-MM-DD.md`
+
+### 触发词（自动读取记忆）
+当用户说以下内容时，自动读取最近的总结文件：
+- "查询记忆" / "记忆" / "回忆" / "回忆回忆"
+- "查询之前" / "之前做了什么" / "昨天做了什么"
+- "继续昨天的进度" / "接着上次"
+- "读一下总结" / "看看历史"
+
+### 触发词（生成每日总结）
+当用户说以下内容时，执行完整的每日总结流程：
+- "总结今天" / "今天做了啥"
+- "生成每日总结" / "每日总结"
+- "/daily-summary"
+
+### 每日总结工作流
+1. **读取会话历史** - 从 `~/.claude/projects/` 读取当天所有 JSONL 会话
+2. **按板块分类** - 将会话按主题分类（科研、小红书、Claude配置、工具调研等）
+3. **生成总结文件** - 保存到 `~/.claude/daily-summaries/YYYY-MM-DD.md`
+4. **导出飞书** - 使用 lark-mcp 导出到飞书文档
+5. **发送邮件通知** - 使用 `~/.claude/scripts/send_daily_email.py` 发送到 163 邮箱
+
+### 邮件通知配置
+**邮箱**: guoyichen021004@163.com
+**脚本**: `~/.claude/scripts/send_daily_email.py`
+
+**首次使用需配置授权码**:
+1. 登录 mail.163.com
+2. 设置 → POP3/SMTP/IMAP → 开启 SMTP 服务
+3. 按提示获取授权码（不是邮箱密码！）
+4. 设置环境变量:
+   ```bash
+   # 添加到 ~/.zshrc 或 ~/.bashrc
+   export EMAIL_163_AUTH_CODE='你的授权码'
+   ```
+
+**手动发送邮件**:
+```bash
+~/.claude/scripts/send_daily_email.py           # 发送今天的总结
+~/.claude/scripts/send_daily_email.py 2025-12-21  # 发送指定日期
+```
+
+### 相关命令
+- `/memory` - 查询最近的记忆
+- `/daily-summary` - 生成今日总结
+
 ## 语言偏好
 
 - 默认使用中文回复
