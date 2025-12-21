@@ -14,32 +14,36 @@ description: 论文信息验证工作流。通过多源交叉验证确保论文�
 
 ## 验证清单
 
-对于每篇论文，必须验证以下 4 项：
+对于每篇论文，按优先级验证：
 
-| 项目 | 验证源 | 验证内容 |
-|------|--------|----------|
-| **论文链接** | arXiv | 标题、作者一致 |
-| **会议状态** | OpenReview / 会议官网 | 是否接收、Poster/Spotlight/Oral |
-| **GitHub 仓库** | GitHub | README 与论文对应 |
-| **年份/会议** | Google Scholar | 交叉确认 |
+| 优先级 | 验证源 | 验证内容 |
+|--------|--------|----------|
+| **1** | **OpenReview** | 会议接收状态、Poster/Spotlight/Oral（最准确） |
+| 2 | arXiv | 论文标题、作者 |
+| 3 | GitHub | 仓库与论文对应 |
+| 4 | Google Scholar | 交叉确认（可选） |
 
 ---
 
 ## 验证流程
 
-### Step 1: arXiv 验证
+### Step 1: OpenReview 验证（最重要）
 ```
-访问: https://arxiv.org/abs/XXXX.XXXXX
-确认: 论文标题与方法名称一致
+搜索: site:openreview.net "论文标题"
+或访问: https://openreview.net/forum?id=XXXXXX
+
+确认:
+- "Published as a conference paper at XXX" → 已接收
+- 查看会议 virtual site 确认类型:
+  - https://iclr.cc/virtual/2025/poster/XXXXX → Poster
+  - https://iclr.cc/virtual/2025/spotlight/XXXXX → Spotlight
+  - https://icml.cc/virtual/2025/poster/XXXXX → Poster
 ```
 
-### Step 2: OpenReview 验证（关键）
+### Step 2: arXiv 验证
 ```
-搜索: https://openreview.net/search?term=论文标题
-确认:
-- 是否被接收 (看 "Published as a conference paper at XXX")
-- 接收类型 (Poster / Spotlight / Oral)
-- 或查看会议 virtual site: https://iclr.cc/virtual/2025/poster/XXXXX
+访问: https://arxiv.org/abs/XXXX.XXXXX
+确认: 论文标题、作者一致
 ```
 
 ### Step 3: GitHub 验证
