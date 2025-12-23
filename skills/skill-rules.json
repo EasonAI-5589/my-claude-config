@@ -3,6 +3,32 @@
   "description": "Skill auto-activation rules based on keywords and file patterns",
   "skills": [
     {
+      "name": "memory",
+      "description": "记忆查询和待办管理",
+      "triggers": {
+        "keywords": [
+          "记忆", "回忆", "查询记忆", "memory",
+          "之前做了什么", "昨天做了什么", "上次",
+          "看看待办", "待办清单", "todo", "待办",
+          "有啥没做完", "还有什么要做"
+        ],
+        "pathPatterns": []
+      },
+      "priority": 9
+    },
+    {
+      "name": "daily-summary",
+      "description": "每日工作总结",
+      "triggers": {
+        "keywords": [
+          "总结今天", "今天做了啥", "每日总结",
+          "daily summary", "生成总结", "日报"
+        ],
+        "pathPatterns": []
+      },
+      "priority": 9
+    },
+    {
       "name": "paper-reproduction",
       "description": "论文复现工作流",
       "triggers": {

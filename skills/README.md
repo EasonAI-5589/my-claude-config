@@ -36,11 +36,15 @@ Skills = 你怎么做（方法）
 
 ## 当前 Skills 列表
 
-| Skill | 用途 | 触发场景 |
-|-------|------|----------|
-| [paper-reading](./paper-reading/SKILL.md) | 论文阅读分析 | 阅读论文、分析方法、提取关键信息 |
-| [literature-to-feishu](./literature-to-feishu/SKILL.md) | 文献整理到飞书 | Zotero → Claude → 飞书工作流 |
-| [xiaohongshu-writer](./xiaohongshu-writer/SKILL.md) | 小红书写作 | 创作笔记、分析爆款、优化文案 |
+| Skill | 用途 | 触发场景 | 优先级 |
+|-------|------|----------|--------|
+| [paper-writing](./paper-writing/SKILL.md) | 论文写作 | 写论文、润色、投稿顶会 | 12 |
+| [paper-reproduction](./paper-reproduction/SKILL.md) | 论文复现 | 复现代码、验证实验 | 11 |
+| [paper-reading](./paper-reading/SKILL.md) | 论文阅读 | 阅读论文、分析方法 | 10 |
+| [memory](./memory/SKILL.md) | 记忆查询 | 回忆、待办、历史 | 9 |
+| [daily-summary](./daily-summary/SKILL.md) | 每日总结 | 总结今天、日报 | 9 |
+| [literature-to-feishu](./literature-to-feishu/SKILL.md) | 文献整理 | Zotero → 飞书 | 8 |
+| [xiaohongshu-writer](./xiaohongshu-writer/SKILL.md) | 小红书写作 | 创作笔记、爆款分析 | 8 |
 
 ## 如何创建新 Skill
 
