@@ -410,6 +410,74 @@ git push
 - 用户确认后再用 `#` 添加
 - 定期清理过时规则（每月 1 次）
 
+## 网络与代理配置
+
+### 环境检测规则
+会话开始时，根据以下情况判断网络环境：
+- **需要代理**：访问 Google、GitHub、Docker Hub 等超时或失败
+- **不需要代理**：海外网络环境，或已配置透明代理
+
+### 代理命令（zshrc 中定义）
+```bash
+proxy     # 启用代理 - 端口 7897 (HTTP/SOCKS5)
+unproxy   # 关闭代理
+```
+
+### 当前代理配置
+| 协议 | 地址 | 用途 |
+|------|------|------|
+| HTTP/HTTPS | `127.0.0.1:7897` | 常规网页访问 |
+| SOCKS5 | `127.0.0.1:7897` | Git/SSH 等 |
+
+### 需要代理的服务（在中国大陆）
+- Google 搜索 / Google Scholar / Gmail
+- GitHub (clone, push, pull, API)
+- Docker Hub / ghcr.io
+- npm registry (部分包)
+- Brave Search API
+- OpenAI / Anthropic API
+
+### 不需要代理的服务（no_proxy）
+```
+localhost, 127.0.0.1
+*.cluster-fluster.com
+*.happy.engineering
+```
+- 飞书 API (lark-mcp)
+- 小红书 (xiaohongshu-mcp)
+- 国内镜像源
+
+### 代理故障排查
+当遇到网络超时或连接失败时：
+
+1. **检查代理状态**
+   ```bash
+   echo $http_proxy   # 查看是否启用
+   curl -I https://www.google.com  # 测试连通性
+   ```
+
+2. **切换代理状态**
+   ```bash
+   proxy    # 启用代理
+   unproxy  # 关闭代理
+   ```
+
+3. **检查代理软件**
+   - 确认 ClashX / Surge / V2Ray 等正在运行
+   - 检查端口是否正确（当前：7897）
+
+4. **常见问题**
+   | 错误信息 | 可能原因 | 解决方案 |
+   |----------|----------|----------|
+   | `Connection refused` | 代理软件未运行 | 启动代理软件 |
+   | `Connection timeout` | 代理服务器无响应 | 切换节点或关闭代理 |
+   | `SSL certificate` | 代理 MITM 问题 | 检查证书配置 |
+
+### Claude Code 网络注意事项
+- MCP 服务器连接**不走代理**（本地服务）
+- WebFetch/WebSearch 可能需要代理
+- `git clone` GitHub 仓库需要代理
+
 ## 语言偏好
 
 - 默认使用中文回复
