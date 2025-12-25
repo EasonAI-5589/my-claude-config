@@ -436,16 +436,16 @@ unproxy   # 关闭代理
 - npm registry (部分包)
 - Brave Search API
 - OpenAI / Anthropic API
+- **Happy** (happy.engineering) - Claude Code 的增强服务
 
 ### 不需要代理的服务（no_proxy）
 ```
 localhost, 127.0.0.1
-*.cluster-fluster.com
-*.happy.engineering
 ```
 - 飞书 API (lark-mcp)
 - 小红书 (xiaohongshu-mcp)
 - 国内镜像源
+- 本地 MCP 服务
 
 ### 代理故障排查
 当遇到网络超时或连接失败时：
