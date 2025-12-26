@@ -410,6 +410,280 @@ Keep tone respectful and constructive.
 
 ---
 
+## 九、投稿前 Checklist
+
+### 📋 格式与引用检查
+
+#### LaTeX 引用格式
+- [ ] **统一引用格式** - 所有引用使用 `~\cite{...}`（波浪号不可断行空格）
+  - ❌ 错误：`text \cite{key}`
+  - ✅ 正确：`text~\cite{key}`
+- [ ] **引用命令统一** - 不混用 `\cite` 和 `\citep`
+  - 如果需要文本引用，使用 `\citet{key}`
+  - 如果需要括号引用，统一使用 `\cite{key}`
+- [ ] **引用 key 拼写检查** - 验证所有 cite key 在 .bib 文件中存在
+  ```bash
+  # 检查命令
+  grep -oh "\\cite{[^}]*}" *.tex | sed 's/\\cite{//;s/}//' | sort -u
+  ```
+- [ ] **BibTeX 条目完整性**
+  - 所有引用都有完整的 author、title、year
+  - 会议/期刊名称规范（使用全称或缩写保持一致）
+  - URL 和 DOI 格式正确
+
+#### LaTeX 编译检查
+- [ ] 运行 `pdflatex` 无 warning
+- [ ] 运行 `bibtex` 无错误
+- [ ] 所有引用都正确显示（无 `[?]`）
+- [ ] 所有 cross-reference 正确（`\ref`, `\eqref`）
+- [ ] 所有图表都正确引用
+
+#### 公式与符号
+- [ ] 所有数学符号定义清晰（首次使用时说明）
+- [ ] 公式编号一致（equation vs. align vs. gather）
+- [ ] 变量命名规范
+  - 标量：斜体 `$x$`
+  - 向量：粗体 `$\mathbf{x}$` 或箭头 `$\vec{x}$`
+  - 矩阵：大写粗体 `$\mathbf{X}$`
+  - 集合：花体 `$\mathcal{X}$`
+- [ ] 公式后标点符号正确
+  ```latex
+  \begin{equation}
+      \mathcal{L} = \mathcal{L}_1 + \mathcal{L}_2, \label{eq:loss}
+  \end{equation}
+  where ...
+  ```
+
+### 📝 内容完整性检查
+
+#### Abstract
+- [ ] 包含 4 个要素：问题、方法、结果、意义
+- [ ] 字数在会议限制内（通常 150-250 词）
+- [ ] 包含具体数字（性能提升、数据集规模等）
+- [ ] 无引用（除非会议允许）
+
+#### Introduction
+- [ ] Hook 段落吸引人
+- [ ] 清晰陈述研究问题
+- [ ] 现有方法的局限性
+- [ ] 本文贡献列表（3-4 点）
+- [ ] 组织结构说明（可选）
+
+#### Related Work
+- [ ] 分类清晰（2-4 个子类别）
+- [ ] 每个类别都有代表性工作
+- [ ] 指出每类方法的局限性
+- [ ] 明确本文与相关工作的区别
+
+#### Method
+- [ ] 整体框架图（Figure 1 或 Figure 2）
+- [ ] 符号定义表（Notation table）
+- [ ] 每个公式都有解释
+- [ ] 算法伪代码（如适用）
+- [ ] Loss function 定义清晰
+- [ ] 训练/推理流程描述
+
+#### Experiment
+- [ ] **Datasets** - 名称、规模、split、来源
+- [ ] **Metrics** - 定义评价指标
+- [ ] **Baselines** - 列出对比方法（≥3 个）
+- [ ] **Implementation Details**
+  - 模型架构参数
+  - 训练超参数（lr, batch size, epochs）
+  - 硬件环境（GPU 型号、数量）
+  - 训练时间
+- [ ] **Main Results** - 主实验表格
+- [ ] **Ablation Study** - 消融实验
+- [ ] **Visualization** - 定性结果图
+- [ ] **Statistical Significance** - 报告 mean ± std
+
+#### Conclusion
+- [ ] 总结主要贡献（2-3 句）
+- [ ] Limitations（诚实描述）
+- [ ] Future work（简短）
+
+### 🎯 会议特定要求
+
+#### CVPR/ICCV
+- [ ] 页数限制：8 页正文 + N 页参考文献
+- [ ] 双栏格式
+- [ ] Supplementary Material 准备
+- [ ] Blind review（匿名化）
+- [ ] Ethics Statement（如适用）
+
+#### NeurIPS/ICML
+- [ ] 页数限制：9 页正文（NeurIPS）/ 8 页（ICML）
+- [ ] Broader Impact Statement
+- [ ] Reproducibility Checklist
+- [ ] Code/Data 提交
+
+#### ACL/EMNLP
+- [ ] 长文 8 页 / 短文 4 页
+- [ ] Limitations 部分（ACL 2023+）
+- [ ] Ethics Statement
+
+### 🔍 质量检查
+
+#### 语言与风格
+- [ ] 无拼写错误（使用 Grammarly / LanguageTool）
+- [ ] 无语法错误
+- [ ] 时态一致（通常用现在时描述方法，过去时描述实验）
+- [ ] 避免口语化表达
+- [ ] 避免模糊词汇（"some", "several" → 给出具体数字）
+- [ ] 避免绝对词汇（"always", "never" → "typically", "often"）
+
+#### 图表
+- [ ] 所有图表都有 caption
+- [ ] Caption 独立可读（不依赖正文）
+- [ ] 图表清晰（字体大小适中）
+- [ ] 图表在正文中被引用
+- [ ] 表格使用 booktabs 包（`\toprule`, `\midrule`, `\bottomrule`）
+- [ ] 最佳结果加粗（`\textbf{}`）
+
+#### 可复现性
+- [ ] 代码链接（GitHub）
+- [ ] 数据集链接
+- [ ] 预训练模型链接
+- [ ] 超参数完整记录
+- [ ] Random seed 设置
+
+### ⚠️ 常见错误检查
+
+- [ ] **引用格式混乱** - 见上方"LaTeX 引用格式"
+- [ ] **图表编号跳跃** - 确保连续（Figure 1, 2, 3...）
+- [ ] **参考文献不完整** - 缺少 year, venue, pages
+- [ ] **公式编号遗漏** - 重要公式都要编号
+- [ ] **实验结果不报告方差** - 多次运行报告 mean ± std
+- [ ] **Baseline 对比不足** - 至少对比 3 个 SOTA 方法
+- [ ] **Ablation 不充分** - 每个组件都要验证
+- [ ] **Supplementary 未提及** - 正文中引用附录内容
+
+---
+
+## 十、Citation 验证工作流（Few-Shot Examples）
+
+### 示例 1: 验证并修正错误引用
+
+```
+❌ 错误引用（AI 可能编造的）:
+Recent work on diffusion models~\cite{smith2024diffusion} shows...
+
+🔍 验证步骤：
+1. Google Scholar 搜索: "Smith 2024 diffusion"
+2. 结果：找不到此论文 ❌
+
+✅ 修正：
+搜索: "diffusion models 2024"
+找到: "Denoising Diffusion Probabilistic Models" (Ho et al., NeurIPS 2020)
+
+正确引用:
+Recent work on diffusion models~\cite{ho2020denoising} shows...
+
+BibTeX:
+@inproceedings{ho2020denoising,
+  title={Denoising Diffusion Probabilistic Models},
+  author={Ho, Jonathan and Jain, Ajay and Abbeel, Pieter},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
+  year={2020}
+}
+```
+
+### 示例 2: 从 Google Scholar 获取正确格式
+
+```
+需要引用: "Attention Is All You Need"
+
+🔍 Google Scholar 步骤：
+1. 搜索: "Attention Is All You Need"
+2. 点击 "Cite" → 选择 "BibTeX"
+3. 获取：
+
+@article{vaswani2017attention,
+  title={Attention is all you need},
+  author={Vaswani, Ashish and Shazeer, Noam and ...},
+  journal={Advances in neural information processing systems},
+  volume={30},
+  year={2017}
+}
+
+⚠️ 修正（这是会议不是期刊）：
+@inproceedings{vaswani2017attention,
+  title={Attention is All You Need},
+  author={Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and ...},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
+  year={2017}
+}
+```
+
+### 示例 3: 验证引用格式一致性
+
+```
+❌ 格式不一致：
+@inproceedings{paper1,
+  booktitle={CVPR},  % 缩写
+  year={2024}
+}
+@inproceedings{paper2,
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},  % 全称
+  year={2024}
+}
+
+✅ 统一格式：
+@inproceedings{paper1,
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2024}
+}
+@inproceedings{paper2,
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2024}
+}
+```
+
+### 示例 4: 检查引用 key 拼写
+
+```
+LaTeX 文件:
+We use ResNet~\cite{he2016deep} architecture.
+
+.bib 文件:
+@inproceedings{he2016resnet,  % ❌ key 不匹配！
+  title={Deep Residual Learning...},
+  ...
+}
+
+✅ 修正（两种方式）：
+方式 1: 改 LaTeX
+We use ResNet~\cite{he2016resnet} architecture.
+
+方式 2: 改 .bib (推荐，保持引用 key 的可读性)
+@inproceedings{he2016deep,
+  title={Deep Residual Learning...},
+  ...
+}
+```
+
+### AI 验证 Prompt (简化版)
+
+```
+验证这个引用是否正确：
+
+Title: [TITLE]
+Authors: [AUTHORS]
+Year: [YEAR]
+Venue: [VENUE]
+
+步骤：
+1. Google Scholar 搜索标题
+2. 检查作者、年份、会议是否匹配
+3. 如不匹配，提供正确的 BibTeX
+
+输出：
+✅ 正确 / ❌ 错误: [原因]
+正确 BibTeX: [如需修正]
+```
+
+---
+
 ## 常用工具
 
 | 工具 | 用途 |

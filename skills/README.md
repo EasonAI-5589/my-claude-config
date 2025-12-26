@@ -40,7 +40,7 @@ Skills = 你怎么做（方法）
 |-------|------|----------|--------|
 | [paper-writing](./paper-writing/SKILL.md) | 论文写作 | 写论文、润色、投稿顶会 | 12 |
 | [paper-reproduction](./paper-reproduction/SKILL.md) | 论文复现 | 复现代码、验证实验 | 11 |
-| [paper-reading](./paper-reading/SKILL.md) | 论文阅读 | 阅读论文、分析方法 | 10 |
+| [paper-reading](./paper-reading/SKILL.md) | 论文阅读笔记（5个Section模板） | 阅读论文、公式解析、Pipeline整理 | 10 |
 | [memory](./memory/SKILL.md) | 记忆查询 | 回忆、待办、历史 | 9 |
 | [daily-summary](./daily-summary/SKILL.md) | 每日总结 | 总结今天、日报 | 9 |
 | [literature-to-feishu](./literature-to-feishu/SKILL.md) | 文献整理 | Zotero → 飞书 | 8 |
