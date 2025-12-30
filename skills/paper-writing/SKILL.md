@@ -46,6 +46,83 @@ Keep within [WORD_LIMIT] words.
 [YOUR ABSTRACT]
 ```
 
+### ⚠️ Abstract 写作避坑指南
+
+#### 1. 绝对不要放引用 (Citation-Free Rule)
+```
+❌ 错误：
+Recent methods~\cite{smith2024,zhang2025,...} have shown improvements...
+
+✅ 正确：
+Recent training-free methods have shown improvements...
+```
+**原因**：
+- Abstract 应该自包含，读者可能只读 Abstract
+- 引用会让 Abstract 显得累赘，占用宝贵的字数
+- 顶会论文的 Abstract 几乎不放引用
+
+#### 2. 字数控制参考标准
+| 会议 | 字数范围 | 参考论文示例 |
+|------|----------|-------------|
+| ACL/EMNLP | 150-200 | - |
+| CVPR/ICCV | 150-250 | VCD (CVPR 2024) ~165 words |
+| ICML/NeurIPS | 100-200 | VISTA (ICML 2025) ~230 words |
+
+**建议**：
+- 参考同领域顶会论文的 Abstract 长度
+- 用 Google Scholar 或 arXiv 查看近期录用论文
+- 用注释记录目标字数和参考论文
+
+```latex
+% ============================================================
+% ABSTRACT STRUCTURE (Target: 180-200 words, Current: ~185 words)
+% ============================================================
+% 参考: VCD (CVPR 2024) ~165 words, VISTA (ICML 2025) ~230 words
+% ACL 标准: 150-200 words
+% ...
+% ============================================================
+```
+
+#### 3. 具体化 vs 抽象化
+```
+❌ 太抽象：
+Existing methods apply static corrections uniformly across samples...
+
+✅ 具体化：
+Existing methods apply static corrections---such as fixed attention
+amplification or pre-computed steering vectors---uniformly across samples...
+```
+**为什么要具体化**：
+- 让审稿人清楚你在批评什么
+- 避免 "straw man" 攻击（批评一个不存在的假想敌）
+- 给出具体例子更有说服力
+
+#### 4. 与 baseline 方法明确区分
+```
+❌ 模糊区分：
+Unlike existing methods, our approach is adaptive...
+
+✅ 明确区分：
+Unlike fixed-vector steering methods, our corrections adapt in
+real-time based on each sample's observed drift...
+```
+**关键要素**：
+- 指出 baseline 的核心特征（fixed-vector, pre-computed）
+- 明确你的方法的核心特征（real-time, sample-specific）
+- 使用对比词：Unlike, In contrast to, Different from
+
+#### 5. 结果表述的谦虚原则
+| 方法状态 | 错误表述 | 正确表述 |
+|----------|----------|----------|
+| 陪跑阶段 | "improves by X%" | "achieves competitive performance" |
+| SOTA | "achieves SOTA" | "achieves state-of-the-art performance" |
+| 部分领先 | "outperforms all baselines" | "outperforms most baselines" |
+
+**注意**：
+- 如果你的方法还在"陪跑"（和 baseline 差不多），不要过度承诺
+- 用 "competitive" 而非具体数字
+- 强调 novelty 而非 performance
+
 ### 模型命名
 ```
 I am submitting to a top AI conference. My model does [DESCRIPTION].
@@ -60,6 +137,105 @@ Please suggest professional academic names that:
 ---
 
 ## 二、Introduction
+
+### ⚠️ Introduction 写作核心原则
+
+#### 1. 绝对不要写公式！
+```
+❌ 错误：在 Introduction 写公式
+\begin{equation}
+    \mathcal{E}_l = \log p(y|h^{(l+1)}) - \beta \cdot D_l
+\end{equation}
+
+✅ 正确：高层次概念描述
+"We propose a self-consistency measure that balances prediction
+confidence against distributional drift."
+```
+
+**原因**：
+- Introduction 讲 "what" 和 "why"，不讲 "how"
+- 公式 = 技术细节 = 属于 Method 部分
+- 参考 DAMO/DoLA/VCD/VISTA 等顶会论文，Introduction 都没有公式
+
+#### 2. 保持已有的好段落
+```
+❌ 错误做法：
+- 看到别人写的段落，觉得可以改得更好
+- 大幅重写已经写好的开头段落
+- 用啰嗦的例子替换简洁的学术表述
+
+✅ 正确做法：
+- 先看原来的版本是否已经很好
+- 只修改明确有问题的部分
+- 保持原有的学术风格和简洁性
+```
+
+**教训**：
+- 学术写作要简洁，不要啰嗦
+- 已有的好段落不要轻易大改
+- 改写前先问：原来的版本有什么问题？
+
+#### 3. 典型 Introduction 结构（7段 + Figure）
+
+```
+[Para 1] Problem Statement (~100 words)
+  - 领域进展 → 问题定义 → 关键应用风险
+
+[Para 2] Existing Understanding (~120 words)
+  - 问题原因分析（3 factors）
+  - 现有解决方法
+  - 局限性
+
+[Figure] Overview figure - 放在这里！
+
+[Para 3] Existing Methods Limitation (~90 words)
+  - 共同局限：static, predefined strategies
+  - 具体例子
+  - 问题：over/under-correction
+
+[Para 4-5] Our Insight (~180 words)
+  - 核心观察（conceptual, no formulas）
+  - 区分有益/有害的现象
+  - 自洽性度量（概念层面）
+
+[Para 6] Our Method (~110 words)
+  - 方法名称 + 高层次描述
+  - 关键机制（概念，无公式）
+  - 与现有方法对比
+
+[Para 7] Contributions (~50 words)
+  - 3-4 点贡献列表
+```
+
+### 📌 Overview Figure 放置建议
+
+**推荐位置**：Para 2 之后、Para 3 之前
+
+```latex
+Recent studies have attributed hallucination...
+Nevertheless, these approaches treat hallucination primarily
+as a static factual deficiency.
+
+\begin{figure*}[!t]  % 注意用 [!t] 强制置顶
+    \centering
+    \includegraphics[width=\textwidth]{figures/overview.png}
+    \caption{...}
+    \label{fig:overview}
+\end{figure*}
+
+However, a fundamental limitation underlies this progress...
+```
+
+**为什么这个位置好**：
+- Para 2 讲完了现有理解，自然引出 overview
+- 图片出现后，Para 3-6 可以引用图片说明
+- 排版更稳定，容易排到第二页开头
+
+**图片位置调试经验**：
+- `[!t]` placement 只是建议，实际位置更重要
+- 如果排版不理想，尝试移动到前一段或后一段
+- 通常需要试 2-3 次才能找到最佳位置
+- 图片太靠后可能跑到第三页去
 
 ### Introduction 结构润色
 ```
@@ -459,8 +635,13 @@ Keep tone respectful and constructive.
 #### Abstract
 - [ ] 包含 4 个要素：问题、方法、结果、意义
 - [ ] 字数在会议限制内（通常 150-250 词）
-- [ ] 包含具体数字（性能提升、数据集规模等）
-- [ ] 无引用（除非会议允许）
+  - 参考同领域顶会论文（Google Scholar / arXiv）
+  - 用注释记录目标字数和参考论文
+- [ ] **绝对不要有引用** - Abstract 必须 citation-free
+- [ ] 现有方法描述具体化（给出具体例子，避免抽象批评）
+- [ ] 与 baseline 方法明确区分（指出核心差异）
+- [ ] 结果表述谦虚（陪跑阶段用 "competitive performance"）
+- [ ] 包含具体数字（性能提升、数据集规模等）- 除非方法还在陪跑
 
 #### Introduction
 - [ ] Hook 段落吸引人
@@ -549,6 +730,9 @@ Keep tone respectful and constructive.
 
 ### ⚠️ 常见错误检查
 
+- [ ] **Abstract 包含引用** - 这是最严重的错误！Abstract 必须 citation-free
+- [ ] **Abstract 太抽象** - 批评现有方法时要给具体例子
+- [ ] **与 baseline 区分不清** - 要明确指出核心差异
 - [ ] **引用格式混乱** - 见上方"LaTeX 引用格式"
 - [ ] **图表编号跳跃** - 确保连续（Figure 1, 2, 3...）
 - [ ] **参考文献不完整** - 缺少 year, venue, pages
@@ -557,6 +741,7 @@ Keep tone respectful and constructive.
 - [ ] **Baseline 对比不足** - 至少对比 3 个 SOTA 方法
 - [ ] **Ablation 不充分** - 每个组件都要验证
 - [ ] **Supplementary 未提及** - 正文中引用附录内容
+- [ ] **Overview figure 位置不当** - 建议放在第二页开头（Related Work 之前）
 
 ---
 
