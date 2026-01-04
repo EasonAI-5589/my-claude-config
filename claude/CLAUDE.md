@@ -85,6 +85,48 @@ Hooks  = 什么时候做（触发）  → 检测到关键词自动激活 Skill
 - 服务运行在 `http://localhost:18060/mcp`
 - **服务重启后必须重启 Claude Code 会话**才能加载新工具
 
+#### 小红书登录工作流（⚠️ 重要）
+
+**登录状态检查**：
+```bash
+# 1. 先检查登录状态
+check_login_status  # MCP 工具
+
+# 2. 如果未登录，cookies 可能过期
+ls -la ~/xiaohongshu-mcp/cookies.json  # 检查 cookies 文件
+```
+
+**登录方式（按优先级）**：
+
+| 方式 | 命令 | 说明 |
+|------|------|------|
+| ✅ **推荐：专用登录工具** | `cd ~/xiaohongshu-mcp && ./xiaohongshu-login-darwin-arm64` | 会弹出浏览器窗口显示二维码 |
+| ❌ MCP get_login_qrcode | - | 终端可能无法显示二维码图片 |
+| ❌ Playwright 打开网页 | - | 会被小红书检测为机器人 |
+| ❌ 浏览器手动登录 | - | cookies 不与 MCP 共享 |
+
+**正确的登录流程**：
+```bash
+# Step 1: 确保 MCP 服务在运行
+lsof -i :18060  # 检查端口
+
+# Step 2: 运行专用登录工具（会弹出浏览器）
+cd ~/xiaohongshu-mcp && ./xiaohongshu-login-darwin-arm64
+
+# Step 3: 用小红书 App 扫码登录
+
+# Step 4: 验证登录状态
+check_login_status  # MCP 工具
+```
+
+**踩坑记录**：
+| 问题 | 原因 | 解决方案 |
+|------|------|----------|
+| MCP 二维码显示不出来 | 终端不支持 iTerm2 图片协议 | 使用 `xiaohongshu-login-darwin-arm64` |
+| Playwright 显示"安全限制" | headless 浏览器被检测 | 不要用 Playwright 登录小红书 |
+| 浏览器登录后 MCP 仍未登录 | cookies 存储位置不同 | 必须用专用登录工具 |
+| imgcat 安装后仍看不到图片 | 需要 iTerm2 且开启图片支持 | 使用专用登录工具更可靠 |
+
 **发布前必检清单**：
 1. `check_login_status` - 确认已登录
 2. 标题字数 ≤ 20（含标点！）
@@ -95,6 +137,7 @@ Hooks  = 什么时候做（触发）  → 检测到关键词自动激活 Skill
 - `标题长度超过限制` → 缩短标题
 - `Node is detached` → 调用 check_login_status 后重试
 - `工具不存在` → 重启 Claude Code
+- `未登录` → 运行 `xiaohongshu-login-darwin-arm64`
 
 ### Zotero MCP - 文献管理（自动使用）
 当需要以下文献相关操作时，自动使用 zotero MCP：
@@ -596,12 +639,13 @@ unproxy   # 关闭代理
 
 ### 不需要代理的服务（no_proxy）
 ```
-localhost, 127.0.0.1
+localhost,127.0.0.1,::1,*.local,192.168.*,10.*,172.16.*,100.64.*,100.100.100.100
 ```
 - 飞书 API (lark-mcp)
 - 小红书 (xiaohongshu-mcp)
 - 国内镜像源
 - 本地 MCP 服务
+- Tailscale 内网 (100.64.* / 100.100.100.100)
 
 ### 代理故障排查
 当遇到网络超时或连接失败时：
@@ -633,6 +677,59 @@ localhost, 127.0.0.1
 - MCP 服务器连接**不走代理**（本地服务）
 - WebFetch/WebSearch 可能需要代理
 - `git clone` GitHub 仓库需要代理
+
+### MCP 代理配置（重要！）
+
+**问题场景**：当同时运行以下软件时，MCP 工具可能无法访问外网：
+- **奇安信 VPN** (TrustAgent) - 企业安全软件，会拦截直连请求
+- **Tailscale** - mesh VPN
+- **Clash Verge** - 代理软件
+
+**根因**：
+```
+Shell 环境：有 http_proxy → curl 走代理 → ✅ 成功
+MCP 进程：无 http_proxy → 直接连接 → ❌ 被奇安信拦截/超时
+```
+
+**解决方案**：在 `~/.claude.json` 的 MCP 配置中显式添加代理环境变量：
+```json
+"search": {
+  "type": "stdio",
+  "command": "npx",
+  "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+  "env": {
+    "BRAVE_API_KEY": "xxx",
+    "http_proxy": "http://127.0.0.1:7897",
+    "https_proxy": "http://127.0.0.1:7897",
+    "no_proxy": "localhost,127.0.0.1,::1,*.local,192.168.*,10.*,172.16.*,100.64.*,100.100.100.100"
+  }
+}
+```
+
+**国内/国外切换**：
+- **国内**：保持 Clash Verge 运行，代理生效
+- **国外**：也保持 Clash 运行，依赖 Clash 智能分流（国内直连、国外走代理）
+- **TODO**：后续可能需要一个"国外翻回国内"的梯子
+
+**诊断命令**：
+```bash
+# 检查 MCP 进程是否有代理环境变量
+pgrep -f "mcp-server" | head -1 | xargs -I{} ps eww {}
+
+# 测试直连 vs 代理
+curl --noproxy '*' --max-time 5 https://api.search.brave.com  # 直连
+curl --max-time 5 https://api.search.brave.com                # 走代理
+
+# 清理僵尸 MCP 进程
+pkill -f "mcp-server-brave-search"
+```
+
+**踩坑记录**：
+| 问题 | 原因 | 解决方案 |
+|------|------|----------|
+| MCP 工具 fetch failed | MCP 进程无代理环境变量 | 在 MCP 配置中添加 http_proxy |
+| 僵尸进程堆积 | 旧会话残留 | `pkill -f "mcp-server"` |
+| DNS 解析异常 | 奇安信 DNS 代理 | 检查 `dig @8.8.8.8 域名` |
 
 ## Vibe Coding 最佳实践
 
