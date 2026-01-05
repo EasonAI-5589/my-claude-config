@@ -114,6 +114,19 @@
         "pathPatterns": []
       },
       "priority": 8
+    },
+    {
+      "name": "notion-daily",
+      "description": "Notion 每日内容快速访问",
+      "triggers": {
+        "keywords": [
+          "今日内容", "今日待办", "今天做什么", "看看今天",
+          "打开 Notion", "Notion 待办", "查看 Notion",
+          "今天的待办", "notion", "待办事项"
+        ],
+        "pathPatterns": []
+      },
+      "priority": 9
     }
   ]
 }

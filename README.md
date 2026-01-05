@@ -25,10 +25,11 @@ my-claude-config/
 │   └── lark-mcp.md          # 飞书文档操作
 ├── skills/                   # Claude Skills (个人工作流)
 │   ├── skill-rules.json     # Skill 自动激活规则 ⭐
-│   ├── paper-writing/       # 论文写作（顶会投稿）⭐ 新增
+│   ├── paper-writing/       # 论文写作（顶会投稿）⭐
 │   ├── paper-reading/       # 论文阅读分析
 │   ├── literature-to-feishu/ # 文献整理到飞书
-│   └── xiaohongshu-writer/  # 小红书写作
+│   ├── xiaohongshu-writer/  # 小红书写作
+│   └── notion-daily/        # Notion 每日内容快速访问 ⭐ 新增
 ├── hooks/                    # Claude Code Hooks
 │   └── skill-activation-prompt.sh  # Skill 自动激活 hook
 ├── docker/                   # Docker 配置
@@ -49,7 +50,7 @@ my-claude-config/
 | 全局规则 CLAUDE.md | ✅ | MCP 调用、语言偏好、工作流 |
 | 权限设置 | ✅ | 工具白名单/黑名单 |
 | MCP 服务器 (8个) | ✅ | context7, search, deepwiki, fetch, playwright, xiaohongshu, zotero, lark-mcp |
-| Skills (4个) | ✅ | paper-writing, paper-reading, literature-to-feishu, xiaohongshu-writer |
+| Skills (5个) | ✅ | paper-writing, paper-reading, literature-to-feishu, xiaohongshu-writer, notion-daily |
 | Hooks (1个) | ✅ | skill-activation-prompt (Skill 自动激活) |
 | Extended Thinking | ✅ | 深度思考模式 |
 | 自定义命令 (2个) | ✅ | /daily-summary, /memory ⭐ 新增 |
@@ -133,6 +134,7 @@ Claude 执行:
 | paper-reading | 论文阅读分析 | 论文、paper、arxiv、研究、zotero |
 | literature-to-feishu | 文献整理到飞书 | 整理文献、文献综述、飞书文档 |
 | xiaohongshu-writer | 小红书写作 | 小红书、笔记、爆款、种草、文案 |
+| notion-daily | Notion 每日内容快速访问 | 今日内容、今日待办、今天做什么、打开 Notion |
 
 ## Hooks 系统：Skill 自动激活
 
